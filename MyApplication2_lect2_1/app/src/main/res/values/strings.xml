@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="find_beer">Find BEER!</string>
+    <string name="this_is_a_text_view">This is a \'text view\'</string>
+    <string-array name="beer_color">
+        <item>light</item>
+        <item>amber</item>
+        <item>brown</item>
+        <item>darks</item>
+    </string-array>
+</resources>
