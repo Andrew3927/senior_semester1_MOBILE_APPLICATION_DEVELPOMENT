@@ -66,9 +66,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void dail(View view) {
+    public void dial(View view) {
         if (NUM_PAD.length() != 0) {
             startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", NUM_PAD.getText().toString(), null)));
         }
     }
+
+
 }

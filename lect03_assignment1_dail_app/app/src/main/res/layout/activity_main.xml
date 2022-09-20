@@ -221,7 +221,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:onClick="dail"
+            android:onClick="dial"
             app:srcCompat="@android:drawable/stat_sys_phone_call" />
 
         <Space
