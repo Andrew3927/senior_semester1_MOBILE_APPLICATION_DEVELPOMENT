@@ -53,9 +53,8 @@ public class MainActivity extends AppCompatActivity {
 //        EditText num_pad = (EditText) findViewById(R.id.num_pad);
 //        BaseInputConnection editTextInputConnection = new BaseInputConnection(num_pad, true);
 //        editTextInputConnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
-        EditText editText = (EditText) findViewById(R.id.num_pad);
-        int length = editText.getText().length();
+        int length = NUM_PAD.getText().length();
         if (length > 0)
-            editText.getText().delete(length - 1, length);
+            NUM_PAD.getText().delete(length - 1, length);
     }
 }
