@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">lect03_assignment1_dail_app</string>
     <string name="dail">Dail</string>
+    <string name="doneButton">DONE</string>
+    <string name="deleteButton">Delete</string>
+    <string name="backButton">🔙 BACK</string>
 </resources>

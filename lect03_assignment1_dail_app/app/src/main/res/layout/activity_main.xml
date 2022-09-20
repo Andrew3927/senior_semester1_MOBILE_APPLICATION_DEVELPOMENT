@@ -194,7 +194,7 @@
             android:layout_height="60dp"
             android:layout_marginLeft="24dp"
             android:onClick="deleteLastChar"
-            android:text="DELETE" />
+            android:text="@string/deleteButton" />
 
     </LinearLayout>
 
@@ -207,7 +207,7 @@
         android:layout_width="188dp"
         android:layout_height="61dp"
         android:layout_gravity="center"
-        android:text="@string/dail"
+        android:text="@string/doneButton"
         android:onClick="sendMessage"/>
 
     <Space

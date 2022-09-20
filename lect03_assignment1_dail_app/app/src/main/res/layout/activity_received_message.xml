@@ -13,6 +13,7 @@
 
         <TextView
             android:id="@+id/textView"
+            android:layout_marginLeft="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -25,7 +26,7 @@
             android:layout_width="164dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="🔙 BACK"
+            android:text="@string/backButton"
             android:onClick="back"/>
     </LinearLayout>
 </LinearLayout>
