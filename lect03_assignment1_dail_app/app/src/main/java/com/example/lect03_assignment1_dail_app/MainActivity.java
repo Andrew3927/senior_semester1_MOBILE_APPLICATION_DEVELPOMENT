@@ -1,11 +1,16 @@
 package com.example.lect03_assignment1_dail_app;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.SyncStateContract;
 import android.view.View;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.flatbuffers.Constants;
 
 public class MainActivity extends AppCompatActivity {
     private EditText NUM_PAD;
@@ -59,5 +64,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ReceiveMessageActivity.class);
         intent.putExtra(ReceiveMessageActivity.EXTRA_MESSAGE_TYPE, usrInput);
         startActivity(intent);
+    }
+
+    public void dail(View view) {
+        if (NUM_PAD.length() != 0) {
+            startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", NUM_PAD.getText().toString(), null)));
+        }
     }
 }
