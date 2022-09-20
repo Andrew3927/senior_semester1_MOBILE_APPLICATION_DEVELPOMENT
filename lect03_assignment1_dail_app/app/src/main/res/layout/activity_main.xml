@@ -207,7 +207,8 @@
         android:layout_width="188dp"
         android:layout_height="61dp"
         android:layout_gravity="center"
-        android:text="@string/dail" />
+        android:text="@string/dail"
+        android:onClick="sendMessage"/>
 
     <Space
         android:layout_width="match_parent"
