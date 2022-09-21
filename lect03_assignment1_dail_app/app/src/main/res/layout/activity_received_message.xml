@@ -11,22 +11,45 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_marginLeft="4dp"
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="107dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp" />
+
+        </ScrollView>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="366dp" />
+            android:layout_height="306dp" />
 
-        <Button
-            android:id="@+id/button10"
-            android:layout_width="164dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/backButton"
-            android:onClick="back"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="174dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/button10"
+                android:layout_width="127dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:onClick="back"
+                android:text="@string/backButton" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

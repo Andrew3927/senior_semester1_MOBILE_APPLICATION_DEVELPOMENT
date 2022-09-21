@@ -62,8 +62,10 @@ public class MainActivity extends AppCompatActivity {
     public void sendMessage(View view) {
         String usrInput = NUM_PAD.getText().toString();
         Intent intent = new Intent(this, ReceiveMessageActivity.class);
-        intent.putExtra(ReceiveMessageActivity.EXTRA_MESSAGE_TYPE, usrInput);
-        startActivity(intent);
+        if (usrInput.length() > 0) {
+            intent.putExtra(ReceiveMessageActivity.EXTRA_MESSAGE_TYPE, usrInput);
+            startActivity(intent);
+        }
     }
 
     public void dial(View view) {
