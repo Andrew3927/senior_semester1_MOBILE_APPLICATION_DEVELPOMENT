@@ -17,17 +17,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState != null) {
-            seconds = savedInstanceState.getInt("seconds");
-            is_running = savedInstanceState.getBoolean("running");
-        }
-        runTimer();
-    }
 
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putInt("seconds", seconds);
-        savedInstanceState.putBoolean("running", is_running);
+        runTimer();
     }
 
     public void onClickStart(View view) {
