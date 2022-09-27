@@ -12,22 +12,30 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
     private int seconds = 0;
     private boolean is_running;
+    private boolean was_running;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /* new added */
         if (savedInstanceState != null) {
             seconds = savedInstanceState.getInt("seconds");
-            is_running = savedInstanceState.getBoolean("running");
+            is_running = savedInstanceState.getBoolean("is_running");
+            was_running = savedInstanceState.getBoolean("was_running");
         }
+
         runTimer();
     }
 
+    /* new added */
+    @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt("seconds", seconds);
-        savedInstanceState.putBoolean("running", is_running);
+        savedInstanceState.putBoolean("is_running", is_running);
+        savedInstanceState.putBoolean("was_running", was_running);
     }
 
     public void onClickStart(View view) {
@@ -41,6 +49,21 @@ public class MainActivity extends AppCompatActivity {
     public void onClickReset(View view) {
         is_running = false;
         seconds = 0;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        was_running = is_running;
+        is_running = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (was_running) {
+            is_running = true;
+        }
     }
 
     private void runTimer() {
