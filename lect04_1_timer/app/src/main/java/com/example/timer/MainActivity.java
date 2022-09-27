@@ -11,8 +11,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private int seconds = 0;
-    private boolean running;
-    private boolean wasRunning;
+    private boolean is_running;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState != null) {
             seconds = savedInstanceState.getInt("seconds");
-            running = savedInstanceState.getBoolean("running");
-            wasRunning = savedInstanceState.getBoolean("wasRunning");
+            is_running = savedInstanceState.getBoolean("running");
         }
         runTimer();
     }
@@ -29,20 +27,19 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt("seconds", seconds);
-        savedInstanceState.putBoolean("running", running);
-        savedInstanceState.putBoolean("wasRunning", wasRunning);
+        savedInstanceState.putBoolean("running", is_running);
     }
 
     public void onClickStart(View view) {
-        running = true;
+        is_running = true;
     }
 
     public void onClickStop(View view) {
-        running = false;
+        is_running = false;
     }
 
     public void onClickReset(View view) {
-        running = false;
+        is_running = false;
         seconds = 0;
     }
 
@@ -58,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 int secs = (seconds % 3600) % 60;
                 String time = String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, secs);
                 timeView.setText(time);
-                if (running) {
+                if (is_running) {
                     seconds++;
                 }
                 handler.postDelayed(this, 1000);
