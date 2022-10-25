@@ -12,7 +12,6 @@
         android:id="@+id/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/workout_title"
         android:textAppearance="?android:attr/textAppearance"
         android:textSize="20sp" />
 
@@ -20,6 +19,6 @@
         android:id="@+id/textDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/workout_description" />
+        />
 
 </LinearLayout>
