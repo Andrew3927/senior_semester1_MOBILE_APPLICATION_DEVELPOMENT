@@ -19,10 +19,15 @@
 <!--&lt;!&ndash;        app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
 <!--&lt;!&ndash;        app:layout_constraintTop_toTopOf="parent" />&ndash;&gt;-->
 <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
-<fragment
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/list_fragment"
-    android:name="com.example.workout.WorkoutListFragment"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    />
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/list_fragment"
+        android:name="com.example.workout.WorkoutListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
