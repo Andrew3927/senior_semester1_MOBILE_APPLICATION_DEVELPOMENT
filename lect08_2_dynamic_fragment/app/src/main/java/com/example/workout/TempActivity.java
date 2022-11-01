@@ -12,12 +12,11 @@ public class TempActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp);
 
-
         if (savedInstanceState == null) {
             StopwatchFragment stopwatch = new StopwatchFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             // add the stopwatch, adn add the transaction to the back stack
-            ft.add(R.id.stopwatch_container, stopwatch);
+            ft.add(R.id.stopwatch_containerTemp, stopwatch);
             ft.addToBackStack(null);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             // commit the transaction, this applies the changes.

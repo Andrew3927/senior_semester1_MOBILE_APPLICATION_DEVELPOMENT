@@ -15,18 +15,13 @@ public class MainActivity extends AppCompatActivity implements WorkoutListFragme
         setContentView(R.layout.activity_main);
     }
 
-//    public void onShowDetails(View view) {
-//        Intent intent = new Intent(this, DetailActivity.class);
-//        startActivity(intent);
-//    }
-
     public void itemClicked(long id) {
         View fragmentContainer = findViewById(R.id.fragment_container);
         if (fragmentContainer != null) {
-            WorkoutDetailFragment details = new WorkoutDetailFragment();
+            WorkoutDetailFragment detailsFragment = new WorkoutDetailFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            details.setWorkoutId((int) id);
-            ft.replace(R.id.fragment_container, details);
+            detailsFragment.setWorkoutId(id);
+            ft.replace(R.id.fragment_container, detailsFragment);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.addToBackStack(null);
             ft.commit();

@@ -92,10 +92,6 @@ public class StopwatchFragment extends Fragment implements View.OnClickListener{
         });
     }
 
-    public StopwatchFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
