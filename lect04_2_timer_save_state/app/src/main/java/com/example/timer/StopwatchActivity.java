@@ -9,28 +9,38 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
-    private int seconds = 0;
-    private boolean is_running;
+public class StopwatchActivity extends AppCompatActivity {
+    public int seconds;
+    private boolean running;
+    private boolean wasRunning;
+    public static final String SECONDS = "seconds";
+    public static final String RUNNING = "running";
+    public static final String WAS_RUNNING = "wasRunning";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_stopwatch);
+
+        if (savedInstanceState != null) {
+            seconds = savedInstanceState.getInt(SECONDS);
+            running = savedInstanceState.getBoolean(RUNNING);
+            wasRunning = savedInstanceState.getBoolean(WAS_RUNNING);
+        }
 
         runTimer();
     }
 
     public void onClickStart(View view) {
-        is_running = true;
+        running = true;
     }
 
     public void onClickStop(View view) {
-        is_running = false;
+        running = false;
     }
 
     public void onClickReset(View view) {
-        is_running = false;
+        running = false;
         seconds = 0;
     }
 
@@ -46,11 +56,19 @@ public class MainActivity extends AppCompatActivity {
                 int secs = (seconds % 3600) % 60;
                 String time = String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, secs);
                 timeView.setText(time);
-                if (is_running) {
+                if (running) {
                     seconds++;
                 }
                 handler.postDelayed(this, 1000);
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt(SECONDS, seconds);
+        savedInstanceState.putBoolean(RUNNING, running);
+        savedInstanceState.putBoolean(WAS_RUNNING, wasRunning);
     }
 }
