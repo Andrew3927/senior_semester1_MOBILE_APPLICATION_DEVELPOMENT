@@ -24,8 +24,7 @@ public class StopwatchFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
+        if (savedInstanceState != null) {
             seconds = savedInstanceState.getInt(SECONDS);
             isRunning = savedInstanceState.getBoolean(IS_RUNNING);
             wasRunning = savedInstanceState.getBoolean(WAS_RUNNING);
