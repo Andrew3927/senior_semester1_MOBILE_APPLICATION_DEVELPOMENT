@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.SyncStateContract;
+import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         NUM_PAD = (EditText) findViewById(R.id.num_pad);
+        NUM_PAD.setInputType(InputType.TYPE_NULL);
     }
 
     private void add(int a) {
