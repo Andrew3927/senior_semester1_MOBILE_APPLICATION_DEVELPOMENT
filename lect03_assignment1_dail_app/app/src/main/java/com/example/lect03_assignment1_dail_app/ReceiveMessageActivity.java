@@ -36,8 +36,9 @@ public final class ReceiveMessageActivity extends AppCompatActivity {
     /*=====================================================================*/
 
     private void addPhoneNum(String str) {
-        phoneNumbers.add(str);
-        System.out.println(phoneNumbers.toString());
+        if (!phoneNumbers.contains(str)) {
+            phoneNumbers.add(str);
+        }
 //        System.out.println(phoneNums.size());
     }
 

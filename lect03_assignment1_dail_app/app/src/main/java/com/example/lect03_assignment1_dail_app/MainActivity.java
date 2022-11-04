@@ -8,9 +8,14 @@ import android.provider.SyncStateContract;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.flatbuffers.Constants;
+
+import java.io.BufferedWriter;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity {
     private EditText NUM_PAD;
@@ -62,15 +67,45 @@ public class MainActivity extends AppCompatActivity {
     public void sendMessage(View view) {
         String usrInput = NUM_PAD.getText().toString();
         Intent intent = new Intent(this, ReceiveMessageActivity.class);
-        if (usrInput.length() > 0) {
+        if (usrInput.length() >= 8 && usrInput.length() <= 11) {
             intent.putExtra(ReceiveMessageActivity.EXTRA_MESSAGE_TYPE, usrInput);
             startActivity(intent);
+            save(usrInput);
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Warning")
+                    .setMessage("The input must contains at least 8 and at most 11 numbers.")
+                    .setPositiveButton("Confirm", null)
+                    .show();
+            NUM_PAD.getText().delete(0, NUM_PAD.getText().length());
         }
     }
 
     public void dial(View view) {
         if (NUM_PAD.length() != 0) {
             startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", NUM_PAD.getText().toString(), null)));
+        }
+    }
+
+    private void save(String s) {
+        OutputStream out = null;
+        BufferedWriter writer = null;
+        try {
+            out = openFileOutput("data",MODE_PRIVATE);
+            writer = new BufferedWriter(new OutputStreamWriter(out));
+            writer.write(s);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                if(writer!=null)
+                {
+                    writer.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
     }
 
