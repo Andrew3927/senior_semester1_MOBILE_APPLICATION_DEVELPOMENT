@@ -5,13 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 
-/**
- * Mole Class
- */
 public class Mole {
 
-    public static final Point TOP_LEFT = new Point(130,970);
-    public static Bitmap molePNG;
+    // Point holds two integer coordinates
+    public static final Point TOP_LEFT_POINT = new Point(130, 970);
+    public static Bitmap MOLE_PNG;
 
     private int animationFrame;
     private int xHole, yHole;
@@ -38,14 +36,14 @@ public class Mole {
     }
 
     public Point getMoleCoords() {
-        return new Point(TOP_LEFT.x+xHole*330,TOP_LEFT.y+yHole*340-animationFrame*13);
+        return new Point(TOP_LEFT_POINT.x + xHole * 330, TOP_LEFT_POINT.y + yHole * 340 - animationFrame * 13);
     }
 
     public Bitmap getBitmap() {
-        return molePNG;
+        return MOLE_PNG;
     }
 
     public void drawMole(Canvas canvas, Paint paint) {
-        canvas.drawBitmap(molePNG, getMoleCoords().x, getMoleCoords().y, paint);
+        canvas.drawBitmap(MOLE_PNG, getMoleCoords().x, getMoleCoords().y, paint);
     }
 }

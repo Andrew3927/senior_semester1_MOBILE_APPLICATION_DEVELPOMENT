@@ -1,9 +1,9 @@
 package com.example.whackamole;
 
-import static com.example.whackamole.GameActivity.mp1;
-import static com.example.whackamole.GameActivity.mp2;
-import static com.example.whackamole.GameActivity.mp4;
-import static com.example.whackamole.GameActivity.mp3;
+import static com.example.whackamole.GameActivity.MP1;
+import static com.example.whackamole.GameActivity.MP2;
+import static com.example.whackamole.GameActivity.MP4;
+import static com.example.whackamole.GameActivity.MP3;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,98 +20,143 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Game View
+ * SurfaceView: provides a dedicated drawing surface embedded inside of a view hierarchy
  */
 public class GameView extends SurfaceView {
 
     public static final int FPS = 30;
 
-    public static Bitmap bg, top, middle, bottom, heart;
-    public static int screen_width, screen_height;
-    private static Paint p;
+    // Bitmap: one of the most important class for image processing -> (color transformation, crop,
+    // rotation, zoom in/out, etc)
+    public static Bitmap BACK_GROUND, BUTTOM_TOP, BUTTOM_MIDDLE, BUTTOM_BOTTOM, HEART;
+    public static int SCREEN_WIDTH, SCREEN_HEIGHT;
+    private static Paint _PAINT;
     private Mole mole = new Mole();
     private int score = 0;
     private int lives = 3;
     private int time = 30;
     private int timeCounter = 0;
-    private Activity a;
+    private Activity activity;
 
-    public GameView(Context context, Activity a) {
-        super (context);
-        p = new Paint();
-        this.a = a;
+    /**
+     * Initialize the GameView with Display Metrics, retrieve the image resources and assign them to
+     * Bitmap object
+     *
+     * @param context
+     * @param activity
+     */
+    public GameView(Context context, Activity activity) {
+        super(context);
+        _PAINT = new Paint();
+        _PAINT.setTextSize(80);
+
+        this.activity = activity;
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager()
                 .getDefaultDisplay()
                 .getRealMetrics(displayMetrics);
 
-        screen_width = displayMetrics.widthPixels;
-        screen_height = displayMetrics.heightPixels;
+        SCREEN_WIDTH = displayMetrics.widthPixels;
+        SCREEN_HEIGHT = displayMetrics.heightPixels;
 
-        Mole.molePNG = getScaledPNG(R.drawable.mole,.20,.13);
-        bg = getScaledPNG(R.drawable.bg);
-        top = getScaledPNG(R.drawable.bg_top);
-        middle = getScaledPNG(R.drawable.bg_middle);
-        bottom = getScaledPNG(R.drawable.bg_bottom);
-        heart = getScaledPNG(R.drawable.heart,.1,.05);
+        // retrieve the necessary image resources and assign them to Bitmap object
+        Mole.MOLE_PNG = getScaledPNG(R.drawable.mole, .20, .13);
+        BACK_GROUND = getScaledPNG(R.drawable.bg);
+        BUTTOM_TOP = getScaledPNG(R.drawable.bg_top);
+        BUTTOM_MIDDLE = getScaledPNG(R.drawable.bg_middle);
+        BUTTOM_BOTTOM = getScaledPNG(R.drawable.bg_bottom);
+        HEART = getScaledPNG(R.drawable.heart, .1, .05);
         setWillNotDraw(false); //Why is this default. Come on Google!
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(mole.getAnimationFrame() < 10)
-                    mole.setAnimationFrame(mole.getAnimationFrame()+1);
+                if (mole.getAnimationFrame() < 10)
+                    mole.setAnimationFrame(mole.getAnimationFrame() + 1);
                 timeCounter++;
-                if(timeCounter >= FPS) {
+                if (timeCounter >= FPS) {
                     time--;
                     timeCounter = 0;
                 }
                 postInvalidate();
             }
-        }, 0, 1000/FPS);
+        }, 0, 1000 / FPS);
     }
 
+    /**
+     * Give an image resources without specifying scale and return a Bitmap.
+     *
+     * @param id R.drawable.nameOfResources
+     * @return Return a Bitmap
+     */
     public Bitmap getScaledPNG(int id) {
-        return getScaledPNG(id,1,1);
+        return getScaledPNG(id, 1, 1);
     }
 
+    /**
+     * Give an image resources with specific scale and return a Bitmap.
+     *
+     * @param id          R.drawable.nameOfResource
+     * @param widthScale
+     * @param heightScale
+     * @return Return a Bitmap to process the image
+     */
     public Bitmap getScaledPNG(int id, double widthScale, double heightScale) {
+        // getResources(): Android resource system keeps track of all non-code assets
+        //  associated with an application.
         Bitmap png = BitmapFactory.decodeResource(getResources(), id);
-        return Bitmap.createScaledBitmap(png, (int)(screen_width*widthScale),
-                (int)(screen_height*heightScale), true);
+        return Bitmap.createScaledBitmap(png,
+                (int) (SCREEN_WIDTH * widthScale),
+                (int) (SCREEN_HEIGHT * heightScale), true);
     }
 
+    /**
+     * Override the View method.
+     *  The onDraw() method is called whenever android thinks that your view should be redrawn.
+     * @param canvas The Canvas class holds the "draw" calls.
+     */
     @Override
     public void onDraw(Canvas canvas) {
-        if(lives == 0 || time == 0) {
-            p.setTextSize(80);
-            canvas.drawText("Score: " + score,500,600,p);
-            a.setResult(score);
-            a.finish();
-        }
-        canvas.drawBitmap(bg,0,0,p);
-        if(mole.getHoleY() <= 0)
-            mole.drawMole(canvas,p);
-        canvas.drawBitmap(top,0,0,p);
-        if(mole.getHoleY() == 1)
-            mole.drawMole(canvas,p);
-        canvas.drawBitmap(middle,0,0,p);
-        if(mole.getHoleY() >= 2)
-            mole.drawMole(canvas,p);
-        canvas.drawBitmap(bottom,0,0,p);
-        if(lives >= 1)
-            canvas.drawBitmap(heart,950,30,p);
-        if(lives >= 2)
-            canvas.drawBitmap(heart,900,30,p);
-        if(lives >= 3)
-            canvas.drawBitmap(heart,850,30,p);
+        // If the game is over:
+        if (lives == 0 || time == 0) {
+            // drawText(): Draw the text, with origin at (x, y), using the specified paint.
+            canvas.drawText("Score: " + score, 500, 600, _PAINT);
 
-        p.setTextSize(80);
-        canvas.drawText("Score: " + score,50,100,p);
-        canvas.drawText("Time: " + time,50,200,p);
+            // Sending data back to the Main Activity before closing the activity
+            activity.setResult(score);
+            // finish(): Call this when your activity is done and should be closed.
+            activity.finish();
+        }
+
+        // If the game is not done yet:
+        canvas.drawBitmap(BACK_GROUND, 0, 0, _PAINT);
+        if (mole.getHoleY() <= 0)
+            mole.drawMole(canvas, _PAINT);
+        canvas.drawBitmap(BUTTOM_TOP, 0, 0, _PAINT);
+        if (mole.getHoleY() == 1)
+            mole.drawMole(canvas, _PAINT);
+        canvas.drawBitmap(BUTTOM_MIDDLE, 0, 0, _PAINT);
+        if (mole.getHoleY() >= 2)
+            mole.drawMole(canvas, _PAINT);
+        canvas.drawBitmap(BUTTOM_BOTTOM, 0, 0, _PAINT);
+        if (lives >= 1)
+            canvas.drawBitmap(HEART, 950, 30, _PAINT);
+        if (lives >= 2)
+            canvas.drawBitmap(HEART, 900, 30, _PAINT);
+        if (lives >= 3)
+            canvas.drawBitmap(HEART, 850, 30, _PAINT);
+
+//        _PAINT.setTextSize(80);
+        canvas.drawText("Score: " + score, 50, 100, _PAINT);
+        canvas.drawText("Time: " + time, 50, 200, _PAINT);
     }
 
+    /**
+     * Mainly to determine if the user correct lick the mole icon.
+     * @param event The MotionEvent will get passed by the system.
+     * @return Return true if user successfully click the mole icon, false, otherwise.
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction();
@@ -129,20 +174,19 @@ public class GameView extends SurfaceView {
                     mole.setAnimationFrame(0);
                     switch (new Random().nextInt(4)) {
                         case 1:
-                            mp1.start();
+                            MP1.start();
                             break;
                         case 2:
-                            mp2.start();
+                            MP2.start();
                             break;
                         case 3:
-                            mp3.start();
+                            MP3.start();
                             break;
                         case 0:
-                            mp4.start();
+                            MP4.start();
                             break;
                     }
-                }
-                else
+                } else
                     lives--;
                 postInvalidate();
                 return true;

@@ -30,12 +30,19 @@ public class MainMenuActivity extends AppCompatActivity {
 
     public void onClickPlayGame(View v) {
         Intent intent = new Intent(this, GameActivity.class);
+        // get a result back from an activity when it ends
         startActivityForResult(intent,1);
     }
 
+    /**
+     * The result will come back through onActivityResult() method
+     * @param requestCode request code
+     * @param resultCode result code
+     * @param data data
+     */
     @Override
-    public void onActivityResult(int req, int res, Intent i) {
-        super.onActivityResult(req, res, i);
-        ((TextView) findViewById(R.id.lastScore)).setText("Latest Score: " + res);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ((TextView) findViewById(R.id.lastScore)).setText("Latest Score: " + resultCode);
     }
 }
