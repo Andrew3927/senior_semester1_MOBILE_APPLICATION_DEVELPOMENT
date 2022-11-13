@@ -28,8 +28,8 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     }
 
-    public void playGame(View v) {
-        Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+    public void onClickPlayGame(View v) {
+        Intent intent = new Intent(this, GameActivity.class);
         startActivityForResult(intent,1);
     }
 
