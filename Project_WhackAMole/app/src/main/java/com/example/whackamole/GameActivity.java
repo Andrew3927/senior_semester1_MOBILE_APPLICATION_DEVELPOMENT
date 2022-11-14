@@ -2,6 +2,7 @@ package com.example.whackamole;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -12,7 +13,10 @@ import android.view.View;
 public class GameActivity extends AppCompatActivity {
 
     private GameView gameView;
+    public static final String LEVEL = "level";
+    private String level;
     public static int widthpixels, HEIGHTPIXELS;
+
     // MediaPlayer: to control playback of audio/video files and streams
     public static MediaPlayer MP1, MP2, MP3, MP4;
 
@@ -22,11 +26,16 @@ public class GameActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Set screen to this activity with custom view GameView
+        Intent intent = getIntent();
+        this.level = (String) intent.getStringExtra(LEVEL);
         gameView = new GameView(this, this);
+        gameView.setHardness(level);
         // Set the activity content to an explicit view,
         //      This view is placed directly into the activity's view hierarchy.
         //      It can itself be a complex view hierarchy
         setContentView(gameView);
+
+
 
         // If Its on Kit Kat or above go immersive mode
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

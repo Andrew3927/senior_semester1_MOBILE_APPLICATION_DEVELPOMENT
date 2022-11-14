@@ -24,7 +24,7 @@ import java.util.TimerTask;
  */
 public class GameView extends SurfaceView {
 
-    public static final int FPS = 30;
+    public static final int FPS = 60;
 
     // Bitmap: one of the most important class for image processing -> (color transformation, crop,
     // rotation, zoom in/out, etc)
@@ -37,10 +37,13 @@ public class GameView extends SurfaceView {
     private int time = 30;
     private int timeCounter = 0;
     private Activity activity;
+    private boolean updateMole;
+
+    // level 1, refresh per 3 sec; level 3, refresh per 1 sec.
+    private int LEVEL;
 
     /**
-     * Initialize the GameView with Display Metrics, retrieve the image resources and assign them to
-     * Bitmap object
+     * 用Display Metrics初始化GameView，检索图像资源并将其分配给位图对象
      *
      * @param context
      * @param activity
@@ -59,29 +62,50 @@ public class GameView extends SurfaceView {
         SCREEN_WIDTH = displayMetrics.widthPixels;
         SCREEN_HEIGHT = displayMetrics.heightPixels;
 
-        // retrieve the necessary image resources and assign them to Bitmap object
+        // retrieve 必要的图像资源并将其赋值给 bitmap object
         Mole.MOLE_PNG = getScaledPNG(R.drawable.mole, .20, .13);
         BACK_GROUND = getScaledPNG(R.drawable.bg);
         BUTTOM_TOP = getScaledPNG(R.drawable.bg_top);
         BUTTOM_MIDDLE = getScaledPNG(R.drawable.bg_middle);
         BUTTOM_BOTTOM = getScaledPNG(R.drawable.bg_bottom);
         HEART = getScaledPNG(R.drawable.heart, .1, .05);
-        setWillNotDraw(false); //Why is this default. Come on Google!
+        setWillNotDraw(false);
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+
                 if (mole.getAnimationFrame() < 10)
                     mole.setAnimationFrame(mole.getAnimationFrame() + 1);
                 timeCounter++;
                 if (timeCounter >= FPS) {
                     time--;
                     timeCounter = 0;
+                    synchronized (GameView.class) {
+                        if (time % LEVEL == 0) {
+                            updateMole = true;
+                        }
+                    }
+                    postInvalidate();
                 }
-                postInvalidate();
             }
         }, 0, 1000 / FPS);
+
+
+    }
+
+    public void setHardness(String hardness) {
+        setLEVEL(hardness);
+    }
+
+    private void setLEVEL(String hardness) {
+        if (hardness.equals("1"))
+            this.LEVEL = 3;
+        else if (hardness.equals("2"))
+            this.LEVEL = 2;
+        else if (hardness.equals("3"))
+            this.LEVEL = 1;
     }
 
     /**
@@ -90,7 +114,7 @@ public class GameView extends SurfaceView {
      * @param id R.drawable.nameOfResources
      * @return Return a Bitmap
      */
-    public Bitmap getScaledPNG(int id) {
+    private Bitmap getScaledPNG(int id) {
         return getScaledPNG(id, 1, 1);
     }
 
@@ -102,7 +126,7 @@ public class GameView extends SurfaceView {
      * @param heightScale
      * @return Return a Bitmap to process the image
      */
-    public Bitmap getScaledPNG(int id, double widthScale, double heightScale) {
+    private Bitmap getScaledPNG(int id, double widthScale, double heightScale) {
         // getResources(): Android resource system keeps track of all non-code assets
         //  associated with an application.
         Bitmap png = BitmapFactory.decodeResource(getResources(), id);
@@ -111,9 +135,17 @@ public class GameView extends SurfaceView {
                 (int) (SCREEN_HEIGHT * heightScale), true);
     }
 
+    private void drawBackground(Canvas canvas) {
+        canvas.drawBitmap(BACK_GROUND, 0, 0, _PAINT);
+        canvas.drawBitmap(BUTTOM_TOP, 0, 0, _PAINT);
+        canvas.drawBitmap(BUTTOM_MIDDLE, 0, 0, _PAINT);
+        canvas.drawBitmap(BUTTOM_BOTTOM, 0, 0, _PAINT);
+    }
+
     /**
      * Override the View method.
-     *  The onDraw() method is called whenever android thinks that your view should be redrawn.
+     * The onDraw() method is called whenever android thinks that your view should be redrawn.
+     *
      * @param canvas The Canvas class holds the "draw" calls.
      */
     @Override
@@ -129,17 +161,19 @@ public class GameView extends SurfaceView {
             activity.finish();
         }
 
-        // If the game is not done yet:
-        canvas.drawBitmap(BACK_GROUND, 0, 0, _PAINT);
-        if (mole.getHoleY() <= 0)
-            mole.drawMole(canvas, _PAINT);
-        canvas.drawBitmap(BUTTOM_TOP, 0, 0, _PAINT);
-        if (mole.getHoleY() == 1)
-            mole.drawMole(canvas, _PAINT);
-        canvas.drawBitmap(BUTTOM_MIDDLE, 0, 0, _PAINT);
-        if (mole.getHoleY() >= 2)
-            mole.drawMole(canvas, _PAINT);
-        canvas.drawBitmap(BUTTOM_BOTTOM, 0, 0, _PAINT);
+        // 画背景
+        drawBackground(canvas);
+
+        // 每一帧，看一下任意生成的地鼠的y轴位置（相对位置）然后生成在对应的九宫格上
+        if (updateMole) {
+            mole.setHole(new Random().nextInt(3), new Random().nextInt(3));
+            synchronized (GameView.class) {
+                this.updateMole = false;
+            }
+        }
+        mole.drawMole(canvas, _PAINT);
+
+        // 画上对应的生命值
         if (lives >= 1)
             canvas.drawBitmap(HEART, 950, 30, _PAINT);
         if (lives >= 2)
@@ -147,13 +181,15 @@ public class GameView extends SurfaceView {
         if (lives >= 3)
             canvas.drawBitmap(HEART, 850, 30, _PAINT);
 
-//        _PAINT.setTextSize(80);
+        // 画出当前的游戏状态
         canvas.drawText("Score: " + score, 50, 100, _PAINT);
         canvas.drawText("Time: " + time, 50, 200, _PAINT);
+
     }
 
     /**
      * Mainly to determine if the user correct lick the mole icon.
+     *
      * @param event The MotionEvent will get passed by the system.
      * @return Return true if user successfully click the mole icon, false, otherwise.
      */
@@ -165,12 +201,17 @@ public class GameView extends SurfaceView {
 
         int moleX = mole.getMoleCoords().x;
         int moleY = mole.getMoleCoords().y;
+
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+                // 如果用户点中图标的区域
                 if (x >= moleX && x < (moleX + mole.getBitmap().getWidth())
                         && y >= moleY && y < (moleY + mole.getBitmap().getHeight())) {
+                    // random generate 一个 (x, y)坐标作为地鼠（在九宫格）出现的地方
                     mole.setHole(new Random().nextInt(3), new Random().nextInt(3));
+
                     score++;
+
                     mole.setAnimationFrame(0);
                     switch (new Random().nextInt(4)) {
                         case 1:

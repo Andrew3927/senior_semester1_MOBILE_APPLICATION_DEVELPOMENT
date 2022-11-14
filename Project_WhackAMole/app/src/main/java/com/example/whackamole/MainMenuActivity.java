@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class MainMenuActivity extends AppCompatActivity {
+    private String selectedLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +27,20 @@ public class MainMenuActivity extends AppCompatActivity {
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
             getWindow().getDecorView().setSystemUiVisibility(UI_OPTIONS);
         }
+
+        // 默认是最容易的
+        this.selectedLevel = "1";
     }
 
     public void onClickPlayGame(View v) {
+        if (v.getId() == R.id.level1)
+            selectedLevel = "1";
+        else if (v.getId() == R.id.level2)
+            selectedLevel = "2";
+        else if (v.getId() == R.id.level3)
+            selectedLevel = "3";
         Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra(GameActivity.LEVEL, selectedLevel);
         // get a result back from an activity when it ends
         startActivityForResult(intent,1);
     }

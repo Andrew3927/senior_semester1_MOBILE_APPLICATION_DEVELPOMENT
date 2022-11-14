@@ -22,9 +22,16 @@ public class Mole {
         return yHole;
     }
 
+    /**
+     * 通常是传一个random generate 的Integer作为地鼠出现的地方
+     *
+     * @param x 地鼠出现的x坐标
+     * @param y 地鼠出现的y坐标
+     */
     public void setHole(int x, int y) {
         xHole = x;
         yHole = y;
+
     }
 
     public int getAnimationFrame() {
@@ -35,6 +42,11 @@ public class Mole {
         animationFrame = x;
     }
 
+    /**
+     * 获得地鼠在 Pixel 3 屏幕上实际出现的地址
+     *
+     * @return 地鼠在 Pixel 3 屏幕上实际出现的地址。数据格式为Point，涵盖x和y坐标
+     */
     public Point getMoleCoords() {
         return new Point(TOP_LEFT_POINT.x + xHole * 330, TOP_LEFT_POINT.y + yHole * 340 - animationFrame * 13);
     }
