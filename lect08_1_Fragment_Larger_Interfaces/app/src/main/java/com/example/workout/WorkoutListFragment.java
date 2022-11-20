@@ -12,11 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WorkoutListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 //public class WorkoutListFragment extends Fragment {
 public class WorkoutListFragment extends ListFragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -33,27 +28,6 @@ public class WorkoutListFragment extends ListFragment {
     }
     private Listener listener;
 
-    public WorkoutListFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment WorkoutListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static WorkoutListFragment newInstance(String param1, String param2) {
-        WorkoutListFragment fragment = new WorkoutListFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
