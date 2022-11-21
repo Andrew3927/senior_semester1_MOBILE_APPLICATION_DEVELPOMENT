@@ -13,7 +13,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaletype="centerCrop"
+            android:scaleType="centerCrop"
             android:src="@drawable/restaurant"
             android:contentDescription="@string/restaurant_image"/>
 
@@ -41,9 +41,5 @@
         </LinearLayout>
 
     </FrameLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/title_top" />
 
 </androidx.core.widget.NestedScrollView>

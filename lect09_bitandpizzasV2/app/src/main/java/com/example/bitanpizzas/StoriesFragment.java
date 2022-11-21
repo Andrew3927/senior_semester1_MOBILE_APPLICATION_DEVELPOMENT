@@ -22,7 +22,7 @@ public class StoriesFragment extends ListFragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 inflater.getContext(),
                 android.R.layout.simple_list_item_1,
-                getResources().getStringArray(R.array.pizzas)
+                getResources().getStringArray(R.array.stories)
         );
         setListAdapter(adapter);
         // Inflate the layout for this fragment

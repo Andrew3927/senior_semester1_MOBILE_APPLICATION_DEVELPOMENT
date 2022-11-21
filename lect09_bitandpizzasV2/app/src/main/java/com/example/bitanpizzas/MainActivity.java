@@ -68,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
         shareActionProvider.setShareIntent(intent);
     }
 
+    // ####################################
+    // ###        Helper Class          ###
+    // ####################################
+
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
