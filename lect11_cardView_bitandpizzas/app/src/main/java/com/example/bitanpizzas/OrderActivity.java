@@ -35,6 +35,7 @@ public class OrderActivity extends AppCompatActivity {
 
     /**
      * 将点单信息加入到数据库里面。
+     *
      * @param view
      */
     public void onClickDone(View view) {
@@ -47,16 +48,22 @@ public class OrderActivity extends AppCompatActivity {
         /**
          * 把点单信息加入到数据库里面
          */
-        DbHandler dbHandler = new DbHandler(this);
-        try {
-            dbHandler.insertIndent(customerName, cuisineName);
+        if (!customerName.isEmpty() && !cuisineName.isEmpty()) {
+            DbHandler dbHandler = new DbHandler(this);
+            try {
+                dbHandler.insertIndent(customerName, cuisineName);
 
-            Intent intent = new Intent(this, IndentActivity.class);
-            startActivity(intent);
+                Intent intent = new Intent(this, IndentActivity.class);
+                startActivity(intent);
 
-            Toast.makeText(this, "New Indent inserted Successfully", Toast.LENGTH_SHORT).show();
-        } catch (SQLException e) {
-            Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "New Indent inserted Successfully", Toast.LENGTH_SHORT).show();
+            } catch (SQLException e) {
+                Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT).show();
+            }
         }
+        else {
+            Toast.makeText(this, "Please fill in both your name and the food you want to order.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

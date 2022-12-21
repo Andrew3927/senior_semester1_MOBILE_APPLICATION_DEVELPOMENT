@@ -75,6 +75,10 @@ public class DbHandler extends SQLiteOpenHelper {
         System.out.println("--------------------------------");
     }
 
+    public void onUpgrade() {
+        onUpgrade(this.getWritableDatabase(), 0, 0);
+    }
+
     /**
      * 插入数据。
      *
