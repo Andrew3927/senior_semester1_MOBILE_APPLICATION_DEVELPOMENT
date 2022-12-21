@@ -27,6 +27,7 @@ public class DbHandler extends SQLiteOpenHelper {
     public static final String KEY_CustomerName = "CUSTOMER_NAME";
     public static final String KEY_CuisineName = "CUISINE_NAME";
     private static DbHandler indentDatabaseHelper;
+    public static Boolean is_reset_database = false;
 
     /**
      * 构造一个数据库。
@@ -86,7 +87,7 @@ public class DbHandler extends SQLiteOpenHelper {
      * @param cuisine_name  菜品的名字。
      * @return 如果数据插入成功返回true，否则返回false。
      */
-    public boolean insertIndent(String customer_name, String cuisine_name) {
+    public long insertIndent(String customer_name, String cuisine_name) {
         SQLiteDatabase db = this.getWritableDatabase();         // 获得 可写模式的 数据库
         ContentValues contentValues = new ContentValues();      // 创建值的键值对（表格），列的名字是键值。
         contentValues.put(KEY_CustomerName, customer_name);
@@ -94,7 +95,7 @@ public class DbHandler extends SQLiteOpenHelper {
         // 将新的一行信息加入，返回的值是新的一行对应的 primary key value。
         long result = db.insert(TABLE_NAME, null, contentValues);
         db.close();                                             // 使用完数据库不要忘记关掉。
-        return result != -1;
+        return result;
     }
 
     /**
@@ -116,5 +117,37 @@ public class DbHandler extends SQLiteOpenHelper {
         }
         return indentList;
     }
+
+    // Delete User Details
+    public void DeleteUser(long userid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, KEY_id+" = ?",new String[]{String.valueOf(userid)});
+        db.close();
+    }
+
+    // Get User Details based on userid
+    @SuppressLint("Range")
+    public ArrayList<HashMap<String, String>> GetUserByUserId(long userid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<HashMap<String, String>> userList = new ArrayList<>();
+//        String query = "SELECT name, location, designation FROM "+ TABLE_NAME;
+        Cursor cursor = db.query(TABLE_NAME, new String[]{KEY_id, KEY_CustomerName, KEY_CuisineName}, KEY_id+ "=?",new String[]{String.valueOf(userid)},null, null, null, null);
+        if (cursor.moveToNext()){
+            HashMap<String,String> user = new HashMap<>();
+            user.put(KEY_CustomerName,cursor.getString(cursor.getColumnIndex(KEY_CustomerName)));
+            user.put(KEY_CuisineName,cursor.getString(cursor.getColumnIndex(KEY_CuisineName)));
+            userList.add(user);
+        }
+        return  userList;
+    }
+
+    public String getCustomerNameByUserId(long userid) {
+        ArrayList<HashMap<String, String>> userList = GetUserByUserId(userid);
+        String[] customerCuisineKeyPair = userList.get(0).values().toArray(new String[0]);
+        String ret = customerCuisineKeyPair[0] + ", " + customerCuisineKeyPair[1];
+        return ret;
+    }
+
+
 
 }

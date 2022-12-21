@@ -21,19 +21,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="32dp"
             android:text="Back"
-            app:layout_constraintStart_toEndOf="@+id/clean_database"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.058"
+            app:layout_constraintStart_toEndOf="@+id/btnRefresh"
             app:layout_constraintTop_toTopOf="parent" />
 
+<!--        <Button-->
+<!--            android:id="@+id/clean_database"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="32dp"-->
+<!--            android:text="CLEAN DATABASE"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
         <Button
-            android:id="@+id/clean_database"
+            android:id="@+id/btnRefresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="92dp"
+            android:layout_marginStart="140dp"
             android:layout_marginTop="32dp"
-            android:text="CLEAN DATABASE"
+            android:text="Refresh table"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

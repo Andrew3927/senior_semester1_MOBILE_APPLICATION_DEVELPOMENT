@@ -5,18 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,13 +38,28 @@ public class IndentActivity extends AppCompatActivity {
             }
         });
 
-        Button cleanDatabase = (Button) findViewById(R.id.clean_database);
-        cleanDatabase.setOnClickListener(new View.OnClickListener() {
+//        Button cleanDatabase = (Button) findViewById(R.id.clean_database);
+//        cleanDatabase.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                confirmDialog();
+//            }
+//        });
+
+        Button refresh = (Button) findViewById(R.id.btnRefresh);
+        refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmDialog();
+                refreshPage();
             }
         });
+    }
+
+    public void refreshPage() {
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 
     private void confirmDialog() {
@@ -63,10 +72,14 @@ public class IndentActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        DbHandler.is_reset_database = true;
+
                         DbHandler db = new DbHandler(IndentActivity.this);
                         db.onUpgrade();
                         intent = new Intent(IndentActivity.this, OrderActivity.class);
                         startActivity(intent);
+
+                        DbHandler.is_reset_database = false;
                     }
                 }
         );
@@ -78,6 +91,5 @@ public class IndentActivity extends AppCompatActivity {
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
 }
