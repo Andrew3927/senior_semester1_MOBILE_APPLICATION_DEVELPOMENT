@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">lect02</string>
     <string name="find_beer">Find BEER!</string>
     <string name="this_is_a_text_view">This is a \'text view\'</string>
     <string-array name="beer_color">

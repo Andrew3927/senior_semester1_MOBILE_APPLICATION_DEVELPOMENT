@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
      * 内部类 SectionsPagerAdapter 继承了 FragmentPagerAdapter，
      *  用于（将Fragment放到当前的 view pager里面）
      *
-     * 我们需要给定2杨信息：
+     * 我们需要给定2个信息：
      *  要放进来页面（fragment）的数量
      *  当页面滑倒某一个为止（tab）的时候，对应的Item（页面）是什么
      */

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bit An Pizzas</string>
+    <string name="app_name">lect09_bitandpizzasV2</string>
     <string name="hello_world">Hello World</string>
     <string name="create_order_title">Create Order</string>
     <string name="create_order">Create Order</string>

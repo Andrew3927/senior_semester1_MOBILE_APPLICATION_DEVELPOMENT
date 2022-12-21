@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyConstraintLayout</string>
+    <string name="app_name">lect05_MyConstraintLayout</string>
     <string name="to_label">To:</string>
     <string name="email_hint">Enter email address:</string>
     <string name="message_hint">Message</string>

@@ -4,37 +4,59 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
+import android.database.SQLException;
+
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
+import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class OrderActivity extends AppCompatActivity {
+    private EditText CUSTOMER_NAME;
+    private EditText CUISINE_NAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.order_tool);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+//        Button saveBtn = (Button) findViewById(R.id.save_button);
+        CUSTOMER_NAME = (EditText) findViewById(R.id.customer_name);
+        CUISINE_NAME = (EditText) findViewById(R.id.cuisine_name);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.order_activity_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
+    /**
+     * 将点单信息加入到数据库里面。
+     * @param view
+     */
     public void onClickDone(View view) {
-        CharSequence text = "You order has been updated";
-        int duration = Snackbar.LENGTH_SHORT;
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator), text, duration);
-        snackbar.setAction("Undo", new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Toast toast = Toast.makeText(OrderActivity.this, "Undone!", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
-        snackbar.show();
+        String customerName = CUSTOMER_NAME.getText().toString() + "\n";
+        String cuisineName = CUISINE_NAME.getText().toString();
+
+        System.out.println("===============================");
+        System.out.println("=== " + customerName + ", " + cuisineName + " ===");
+        System.out.println("===============================");
+        /**
+         * 把点单信息加入到数据库里面
+         */
+        DbHandler dbHandler = new DbHandler(this);
+        try {
+            dbHandler.insertIndent(customerName, cuisineName);
+
+            Intent intent = new Intent(this, IndentActivity.class);
+            startActivity(intent);
+
+            Toast.makeText(this, "New Indent inserted Successfully", Toast.LENGTH_SHORT).show();
+        } catch (SQLException e) {
+            Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT).show();
+        }
     }
 }
